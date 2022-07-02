@@ -1,10 +1,16 @@
 const express = require('express');
 const createError = require('http-errors');
+const morgan = require("morgan");
+const cors = require("cors");
 const dotenv = require('dotenv').config();
 
 const app = express();
 
+app.use(cors());
+app.options("*", cors());
+
 app.use(express.json());
+app.use(morgan("tiny"));
 app.use(express.urlencoded({ extended: true }));
 
 // Initialize DB

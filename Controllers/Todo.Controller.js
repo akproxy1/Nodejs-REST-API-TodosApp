@@ -1,7 +1,7 @@
-const createError = require('http-errors');
-const mongoose = require('mongoose');
+const createError = require("http-errors");
+const mongoose = require("mongoose");
 
-const Todo = require('../Models/Todo.model');
+const Todo = require("../Models/Todo.model");
 
 module.exports = {
   getAllTodos: async (req, res, next) => {
@@ -21,14 +21,12 @@ module.exports = {
       res.send(result);
     } catch (error) {
       console.log(error.message);
-      if (error.name === 'ValidationError') {
+      if (error.name === "ValidationError") {
         next(createError(422, error.message));
         return;
       }
       next(error);
     }
-
-
   },
 
   findTodoById: async (req, res, next) => {
@@ -37,13 +35,13 @@ module.exports = {
       const todo = await Todo.findById(id);
       // const todo = await Todo.findOne({ _id: id });
       if (!todo) {
-        throw createError(404, 'Todo does not exist.');
+        throw createError(404, "Todo does not exist.");
       }
       res.send(todo);
     } catch (error) {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {
-        next(createError(400, 'Invalid Todo id'));
+        next(createError(400, "Invalid Todo id"));
         return;
       }
       next(error);
@@ -58,13 +56,13 @@ module.exports = {
 
       const result = await Todo.findByIdAndUpdate(id, updates, options);
       if (!result) {
-        throw createError(404, 'Todo does not exist');
+        throw createError(404, "Todo does not exist");
       }
       res.send(result);
     } catch (error) {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {
-        return next(createError(400, 'Invalid Todo Id'));
+        return next(createError(400, "Invalid Todo Id"));
       }
 
       next(error);
@@ -77,16 +75,16 @@ module.exports = {
       const result = await Todo.findByIdAndDelete(id);
       // console.log(result);
       if (!result) {
-        throw createError(404, 'Todo does not exist.');
+        throw createError(404, "Todo does not exist.");
       }
       res.send(result);
     } catch (error) {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {
-        next(createError(400, 'Invalid Todo id'));
+        next(createError(400, "Invalid Todo id"));
         return;
       }
       next(error);
     }
-  }
+  },
 };
